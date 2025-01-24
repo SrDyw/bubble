@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="47.865818mm"
+   height="85.483398mm"
+   viewBox="0 0 47.865818 85.483398"
+   version="1.1"
+   id="svg1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm" />
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient3"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+      <stop
+         style="stop-color:#f0f0f0;stop-opacity:1;"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient4"
+       x1="107.0369"
+       y1="157.26753"
+       x2="105.21033"
+       y2="114.70849"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-80.551653,-74.341329)">
+    <path
+       style="fill:url(#linearGradient4);fill-opacity:1;stroke-width:0.264583"
+       d="m 80.916974,74.341329 c 49.134686,32.330251 48.038646,84.765141 47.308116,84.752761 -21.5535,-0.36531 -47.673431,0.73063 -47.673431,0.73063 0,0 15.301413,-18.42338 15.708489,-34.33948 C 97.108745,92.306284 80.916974,74.341329 80.916974,74.341329 Z"
+       id="path3"
+       sodipodi:nodetypes="cscsc" />
+  </g>
+</svg>

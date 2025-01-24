@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Gravity Area
+  - Plant
+  - Bubble
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Ground
+  - Water
+  - UI
+  - Root
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1160101337
+    locked: 0
+  - name: Roots
+    uniqueID: 4070214295
+    locked: 0
+  - name: Plants
+    uniqueID: 935259339
+    locked: 0
+  - name: Player
+    uniqueID: 3417934801
+    locked: 0
+  - name: Foreground
+    uniqueID: 529929405
+    locked: 0
