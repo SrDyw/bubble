@@ -41,20 +41,29 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: Backgrounds
+    uniqueID: 188815633
+    locked: 0
+  - name: Before Ground
+    uniqueID: 935259339
     locked: 0
   - name: Ground
     uniqueID: 1160101337
     locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
   - name: Roots
     uniqueID: 4070214295
     locked: 0
-  - name: Plants
-    uniqueID: 935259339
+  - name: Before Player
+    uniqueID: 2356681809
     locked: 0
   - name: Player
     uniqueID: 3417934801
+    locked: 0
+  - name: After Player
+    uniqueID: 3932226101
     locked: 0
   - name: Foreground
     uniqueID: 529929405

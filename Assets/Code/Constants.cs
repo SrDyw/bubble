@@ -18,6 +18,11 @@ public enum BubbleType
     Red
 }
 
+public enum Axis
+{
+    None, X, Y, Both
+}
+
 public delegate void SharedDelegate();
 public delegate void ItemEvent(Item item);
 public delegate void BooleanDelegate(bool value);
