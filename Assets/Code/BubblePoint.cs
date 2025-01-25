@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 public class BubblePoint : WorldClickable
 {
     [SerializeField] private BubbleType _bubbleRequired;
     [SerializeField] private Plant _plant;
 
     private Bubble _currentBubble;
+    private Tween _scaleTween;
+    private Vector3 _defaultLiftScale;
 
-    private void Awake() {
+    private void Awake()
+    {
         _plant = GetComponentInParent<Plant>();
+
+        _defaultLiftScale = transform.localScale;
+        transform.localScale = Vector3.zero;
     }
 
     public override void OnDetected()
     {
         if (_currentBubble != null) return;
-        
+
         var selectedItem = UIInventoryModule.Current.SelectedItem;
         if (selectedItem)
         {
@@ -33,6 +40,22 @@ public class BubblePoint : WorldClickable
         }
     }
 
+    public void Show()
+    {
+        _scaleTween = transform.DOScale(_defaultLiftScale, 0.2f)
+            .SetEase(Ease.OutBack);
+    }
+
+    public void Hide()
+    {
+        _scaleTween = transform.DOScale(Vector3.zero, 0.2f)
+            .SetEase(Ease.OutBack);
+    }
+
+    private void OnDestroy() {
+        _scaleTween?.Kill();
+    }
+
     public bool SetBubble(Bubble bubble)
     {
         if (_bubbleRequired != BubbleType.None)
@@ -43,7 +66,8 @@ public class BubblePoint : WorldClickable
 
             _currentBubble.gameObject.SetActive(true);
             _currentBubble.transform.position = transform.position;
-            _currentBubble.transform.SetParent(transform);
+            _currentBubble.transform.SetParent(transform.parent);
+            Hide();
             return true;
         }
 

@@ -59,7 +59,7 @@ public class CameraFollower : MonoBehaviour
 
     private void Awake()
     {
-        instance = (instance == null) ? this : instance;
+        instance = this;
         _camera = GetComponent<Camera>();
     }
 

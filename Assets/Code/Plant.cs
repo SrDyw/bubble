@@ -19,6 +19,9 @@ public class Plant : MonoBehaviour
     private Vector2 _defaultScale;
     private GrowRoot _roots;
 
+
+
+
     private void Awake()
     {
         _defaultScale = _baseBone.localScale;
@@ -70,11 +73,33 @@ public class Plant : MonoBehaviour
         _roots.StopRoots();
     }
 
+    public void ShowBubblePoint()
+    {
+        foreach (var point in _liftPoints)
+        {
+            point.Show();
+        }
+    }
+
+    void ClearTweens(List<Tween> tweens)
+    {
+        foreach (var t in tweens) t?.Kill();
+    }
+
+    public void HideBubblePoints()
+    {
+        foreach (var point in _liftPoints)
+        {
+            point.Hide();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             UIInventoryModule.Current.Show();
+            ShowBubblePoint();
         }
     }
 
@@ -83,6 +108,7 @@ public class Plant : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             UIInventoryModule.Current.Hide();
+            HideBubblePoints();
         }
     }
 }

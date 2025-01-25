@@ -32,6 +32,8 @@ public class GrowRoot : MonoBehaviour
                 .SetEase(Ease.OutBack)
                 .SetDelay(i * 0.1f);
         }
+
+        StopAllCoroutines();
     }
 
     private IEnumerator RootGenerator()

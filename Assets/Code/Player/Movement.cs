@@ -38,11 +38,10 @@ public class Movement : MonoBehaviour
         IsGrounded = Physics2D.OverlapPoint(_foot.position, _groundLayer);
         JumpThreshold = Mathf.Clamp(JumpThreshold - Time.deltaTime, 0, JumpThreshold);
 
-
-        if (Input.GetKeyDown(KeyCode.Space) && JumpThreshold == 0 && IsGrounded)
-        {
-            _rb.AddForce(transform.up * _jumpFoce, ForceMode2D.Impulse);
-        }
+        // if (Input.GetKeyDown(KeyCode.Space) && JumpThreshold == 0 && IsGrounded)
+        // {
+        //     _rb.AddForce(transform.up * _jumpFoce, ForceMode2D.Impulse);
+        // }
     }
 
     // Update is called once per frame

@@ -7,6 +7,7 @@ public class Planet : MonoBehaviour
 {
     [SerializeField] private PlanetScheme _scheme;
     [SerializeField] private GameObject _visual;
+    [SerializeField] private GameObject[] _arrows;
 
     [Space]
     [Header("Effects")]
@@ -15,6 +16,14 @@ public class Planet : MonoBehaviour
     private Tween _surfaceTween;
     private Vector2 _defaultPosition;
 
+
+    private void Awake()
+    {
+        foreach (var exit in _arrows)
+        {
+            exit.gameObject.SetActive(false);
+        }
+    }
     private void Start()
     {
         _defaultPosition = transform.position;
@@ -48,6 +57,18 @@ public class Planet : MonoBehaviour
     private void OnDestroy()
     {
         Kill(_surfaceTween);
+    }
+
+    public void FreeExit(string name)
+    {
+        foreach (var exit in _arrows)
+        {
+            if (exit.name == name)
+            {
+                exit.gameObject.SetActive(true);
+                return;
+            }
+        }
     }
 
     private void Kill(Tween tween)
