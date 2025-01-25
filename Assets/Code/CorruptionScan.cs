@@ -16,7 +16,7 @@ public class CorruptionScan : MonoBehaviour
 
     IEnumerator shootBubbleLevel() {
         yield return new WaitForSeconds(Random.Range(minMaxDelay.x, minMaxDelay.y));
-        bubbleLevel.position = transform.position;
-        bubbleLevel.velocity = (target.position - transform.position).normalized * speed;
+        // bubbleLevel.position = transform.position;
+        // bubbleLevel.velocity = (target.position - transform.position).normalized * speed;
     }
 }

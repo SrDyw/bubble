@@ -23,7 +23,7 @@ public class UIInventoryModule : UIModule
 
     public int SelectedSlot => _selectedSlot;
 
-    public Item SelectedItem { get => _slots[SelectedSlot]?.CurrentItem; }
+    public Item SelectedItem { get => SelectedSlot != -1 ? _slots[SelectedSlot]?.CurrentItem : null; }
 
     public static UIInventoryModule Current;
 
