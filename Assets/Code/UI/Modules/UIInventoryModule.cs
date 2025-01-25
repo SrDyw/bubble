@@ -14,12 +14,20 @@ public class UIInventoryModule : UIModule
     [SerializeField] private float _cursorMoveTime = 0.4f;
 
     private List<UIItemSlot> _slots = new();
+    private Vector2 _defaultInventoryPosition;
 
     private RectTransform _cursor;
-    private int _selectedSlot = 0;
+    private int _selectedSlot = -1;
     private Tween _cursorMoveTween;
+    private Tween _mainModuleTween;
 
     public int SelectedSlot => _selectedSlot;
+
+    public Item SelectedItem { get => _slots[SelectedSlot]?.CurrentItem; }
+
+    public static UIInventoryModule Current;
+
+
 
     private void Awake()
     {
@@ -27,50 +35,61 @@ public class UIInventoryModule : UIModule
         {
             var s = Instantiate(_slotPrefab, Vector3.zero, Quaternion.identity);
             s.transform.SetParent(_slotsWrapper.transform, false);
+            var slot = s.GetComponent<UIItemSlot>();
+            slot.UiInventoryModule = this;
+            slot.SlotIndex = i;
 
-            _slots.Add(s.GetComponent<UIItemSlot>());
+            _slots.Add(slot);
         }
+
+        Current = this;
     }
     private void Start()
     {
         Inventory.Current.OnItemAdd += AssignItemToSlot;
         GameManager.Current.OnGameOver += OnGameOver;
+        Inventory.Current.OnItemUse += OnItemUse;
 
         var c = Instantiate(_cursorPrefab, Vector3.zero, Quaternion.identity);
         _cursor = c.GetComponent<RectTransform>();
         _cursor.transform.SetParent(Wrapper, false);
         _cursor.transform.localScale *= 1.3f;
+
+        _defaultInventoryPosition = Wrapper.localPosition;
+        Wrapper.localPosition += Vector3.left * 100;
+
     }
 
     private void Update()
     {
         // _slots.Show();
 
-        if (IsActive)
-        {
-            if (Input.anyKeyDown)
-            {
-                var direction = Input.GetAxisRaw("Horizontal");
-                if (direction != 0)
-                {
-                    SelectSlotAndUpdateCursor((int)Mathf.Clamp(SelectedSlot + direction, 0, _slots.Count - 1));
-                }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    if (_slots[_selectedSlot].CurrentItem)
-                    {
-                        Inventory.Current.UseItem(_slots[_selectedSlot].CurrentItem.Scheme.Name);
-                        UpdateModule();
-                    }
-                }
-            }
-        }
+        // if (IsActive)
+        // {
+        //     if (Input.anyKeyDown)
+        //     {
+        //         var direction = Input.GetAxisRaw("Horizontal");
+        //         if (direction != 0)
+        //         {
+        //             SelectSlotAndUpdateCursor((int)Mathf.Clamp(SelectedSlot + direction, 0, _slots.Count - 1));
+        //         }
+        //         if (Input.GetKeyDown(KeyCode.E))
+        //         {
+        //             if (_slots[_selectedSlot].CurrentItem)
+        //             {
+        //                 Inventory.Current.UseItem(_slots[_selectedSlot].CurrentItem.Scheme.Name);
+        //                 UpdateModule();
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     private void OnDestroy()
     {
         Inventory.Current.OnItemAdd -= AssignItemToSlot;
         GameManager.Current.OnGameOver -= OnGameOver;
+        Inventory.Current.OnItemUse -= OnItemUse;
 
         _cursorMoveTween?.Kill();
     }
@@ -89,24 +108,40 @@ public class UIInventoryModule : UIModule
         Hide();
     }
 
-
+    float animationTime = 0.25f;
     public override void Show()
     {
-        base.Show();
-        Player.Current.SetInputState(false);
-        StartCoroutine(DelayedUpdateCursor());
-    }
-    private IEnumerator DelayedUpdateCursor()
-    {
-        yield return null;
-        SelectSlotAndUpdateCursor(SelectedSlot);
-    }
+        IsActive = true;
 
+        _mainModuleTween = Wrapper.DOLocalMoveX(_defaultInventoryPosition.x, animationTime)
+            .SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                SelectSlotAndUpdateCursor(SelectedSlot != -1 ? SelectedSlot : 0);
+            });
+    }
 
     public override void Hide()
     {
-        base.Hide();
-        Player.Current.SetInputState(true);
+        IsActive = false;
+        _mainModuleTween = Wrapper.DOLocalMoveX(_defaultInventoryPosition.x - 100, animationTime)
+            .SetEase(Ease.OutBack);
+
+        _cursor.gameObject.SetActive(false);
+    }
+
+    void OnItemUse(Item item)
+    {
+        var lastCommonItem = Inventory.Current.Items.FirstOrDefault(x => x.Scheme.Name == item.Scheme.Name);
+
+        if (lastCommonItem)
+        {
+            _slots[SelectedSlot].CurrentItem = lastCommonItem;
+        }
+        else
+        {
+            _slots[SelectedSlot].CurrentItem = null;
+        }
     }
 
     public void UpdateModule()
@@ -119,6 +154,8 @@ public class UIInventoryModule : UIModule
 
     public void SelectSlotAndUpdateCursor(int index)
     {
+        _cursor.gameObject.SetActive(true);
+
         _selectedSlot = index;
         UpdateCursor();
     }

@@ -2,19 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
-public class BubblePoint : MonoBehaviour
+using UnityEngine.EventSystems;
+public class BubblePoint : WorldClickable
 {
-    [SerializeField] private BubbleType[] _bubblesRequired;
+    [SerializeField] private BubbleType _bubbleRequired;
+    [SerializeField] private Plant _plant;
 
     private Bubble _currentBubble;
 
+    private void Awake() {
+        _plant = GetComponentInParent<Plant>();
+    }
+
+    public override void OnDetected()
+    {
+        if (_currentBubble != null) return;
+        
+        var selectedItem = UIInventoryModule.Current.SelectedItem;
+        if (selectedItem)
+        {
+            if (selectedItem is Bubble)
+            {
+                var bubble = (Bubble)selectedItem;
+                if (_bubbleRequired == bubble.BubbleType)
+                {
+                    _plant.SetBubble(selectedItem as Bubble, this);
+                    return;
+                }
+            }
+        }
+    }
 
     public bool SetBubble(Bubble bubble)
     {
-        if (_bubblesRequired.FirstOrDefault(b => b == bubble.BubbleType) != BubbleType.None)
+        if (_bubbleRequired != BubbleType.None)
         {
             _currentBubble = bubble;
+            _currentBubble.IsUsed = true;
+            Inventory.Current.UseItem(bubble);
+
+            _currentBubble.gameObject.SetActive(true);
+            _currentBubble.transform.position = transform.position;
+            _currentBubble.transform.SetParent(transform);
             return true;
         }
 

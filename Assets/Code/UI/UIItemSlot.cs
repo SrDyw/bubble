@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
-public class UIItemSlot : MonoBehaviour
+using UnityEngine.EventSystems;
+public class UIItemSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Image _itemImage;
     [SerializeField] private TMP_Text _amountTMP;
     private Item _currentItem;
+    private int slotIndex = 0;
+    private UIInventoryModule _uiInventoryModule;
 
     public Item CurrentItem { get => _currentItem; set => _currentItem = value; }
+    public UIInventoryModule UiInventoryModule { get => _uiInventoryModule; set => _uiInventoryModule = value; }
+    public int SlotIndex { get => slotIndex; set => slotIndex = value; }
 
     private void Start()
     {
@@ -47,5 +51,17 @@ public class UIItemSlot : MonoBehaviour
     public override string ToString()
     {
         return CurrentItem ? $"@Item {CurrentItem.Scheme.Name} x{Inventory.Current.GetQuantity(CurrentItem.Scheme)}" : "Empty";
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (CurrentItem)
+        {
+            UiInventoryModule.SelectSlotAndUpdateCursor(SlotIndex);
+        }
+        else
+        {
+            print("Clicked Empty Slot");
+        }
     }
 }

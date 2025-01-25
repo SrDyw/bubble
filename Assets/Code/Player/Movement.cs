@@ -15,8 +15,17 @@ public class Movement : MonoBehaviour
     private GravityAtraction _gravityAtraction;
     private bool _isGrounded;
     private float _jumpThreshold = 0;
-
+    private Vector2 _direction;
+    private bool _isMoving = false;
+    private float _horizontalInput;
     private Timer _stepTimer;
+   
+    public bool IsMoving { get => _isMoving; }
+    public float JumpThreshold { get => _jumpThreshold; set => _jumpThreshold = value; }
+    public Vector2 Direction { get => _direction; set => _direction = value; }
+    public float HorizontalInput { get => _horizontalInput; set => _horizontalInput = value; }
+    public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +35,11 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        _isGrounded = Physics2D.OverlapPoint(_foot.position, _groundLayer);
-        _jumpThreshold = Mathf.Clamp(_jumpThreshold - Time.deltaTime, 0, _jumpThreshold);
+        IsGrounded = Physics2D.OverlapPoint(_foot.position, _groundLayer);
+        JumpThreshold = Mathf.Clamp(JumpThreshold - Time.deltaTime, 0, JumpThreshold);
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && _jumpThreshold == 0 && _isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && JumpThreshold == 0 && IsGrounded)
         {
             _rb.AddForce(transform.up * _jumpFoce, ForceMode2D.Impulse);
         }
@@ -39,17 +48,19 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        var hInput = Input.GetAxisRaw("Horizontal");
-        if (hInput != 0)
+
+        HorizontalInput = Input.GetAxisRaw("Horizontal");
+        if (HorizontalInput != 0)
         {
-            var direction = transform.right.normalized * Mathf.Sign(hInput);
-            var translationVector = direction * _speed * Time.fixedDeltaTime;
-            transform.position += translationVector;
+            Direction = transform.right.normalized * HorizontalInput;
+            var translationVector = Direction * _speed * Time.fixedDeltaTime;
+            transform.position += (Vector3)translationVector;
 
             if (_stepTimer == null || _stepTimer.Active == false)
             {
-                if (_isGrounded)
+                if (IsGrounded)
                 {
+                    _isMoving = true;
                     _gravityAtraction?.CurrentPlanet.SurfaceStep(transform.up);
                     Timer.CreateOrRestartTimer(ref _stepTimer, 0.3f, gameObject, () =>
                     {
@@ -61,6 +72,7 @@ public class Movement : MonoBehaviour
         else
         {
             if (_stepTimer != null && _stepTimer.Active) _stepTimer.Stop();
+            _isMoving = false;
         }
     }
 }

@@ -55,6 +55,7 @@ public class CameraFollower : MonoBehaviour
 
     public bool InCinematic { get => inCinematic; set => inCinematic = value; }
     public Transform FollowTo { get => followTo; set => followTo = value; }
+    public Transform Focus { get => focus; set => focus = value; }
 
     private void Awake()
     {
@@ -71,7 +72,7 @@ public class CameraFollower : MonoBehaviour
     {
         if (!inCinematic)
         {
-            if (focus != null)
+            if (Focus != null)
             {
                 FocusCenter();
             }
@@ -137,9 +138,9 @@ public class CameraFollower : MonoBehaviour
 
     void FocusCenter()
     {
-        float x = ((int)axisToBloq != 1) ? focus.position.x : transform.position.x;
-        float y = ((int)axisToBloq != 2) ? focus.position.y : transform.position.y;
-        float z = ((int)axisToBloq != 3) ? focus.position.z : transform.position.z;
+        float x = ((int)axisToBloq != 1) ? Focus.position.x : transform.position.x;
+        float y = ((int)axisToBloq != 2) ? Focus.position.y : transform.position.y;
+        float z = ((int)axisToBloq != 3) ? Focus.position.z : transform.position.z;
 
         Vector3 vecToFollow = new Vector3(x, y, z);
 

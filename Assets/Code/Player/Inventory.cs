@@ -10,36 +10,47 @@ public class Inventory : MonoBehaviour
 
     public static Inventory Current;
     public ItemEvent OnItemAdd;
+    public ItemEvent OnItemUse;
 
     int currentIDCount = 0;
+
+    public List<Item> Items => _items;
 
     private void Awake()
     {
         Current = this;
     }
 
-    private void Update() {
-        _items.Show();
+    private void Update()
+    {
+        // _items.Show();
     }
 
     public void AddItem(Item item)
     {
-        var itemInStock = _items.FirstOrDefault(itemInStock => itemInStock.Scheme.Name == item.Scheme.Name);
+        var itemInStock = Items.FirstOrDefault(itemInStock => itemInStock.Scheme.Name == item.Scheme.Name);
 
         item.IdInInventory = currentIDCount++;
-        _items.Add(item);
+        Items.Add(item);
         OnItemAdd?.Invoke(item);
     }
 
     public void UseItem(string itemName)
     {
-        var item = _items.FirstOrDefault(itemInStock => itemInStock.Scheme.Name == itemName);
-        _items.Remove(item);
+        var item = Items.FirstOrDefault(itemInStock => itemInStock.Scheme.Name == itemName);
+        Items.Remove(item);
+        OnItemUse?.Invoke(item);
+        UIInventoryModule.Current.UpdateModule();
+    }
+
+    public void UseItem(Item item)
+    {
+        UseItem(item.Scheme.Name);
     }
 
     public int GetQuantity(ItemScheme itemScheme)
     {
-        return _items.Where(item => item.Scheme.Name == itemScheme.Name).Count();
+        return Items.Where(item => item.Scheme.Name == itemScheme.Name).Count();
     }
 
 }

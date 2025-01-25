@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _model;
     private Animator _animator;
+    private Movement _movement;
 
 
     private readonly int RANDOM_PARAMETER = Animator.StringToHash("random");
+    private readonly int MOVE_PARAMETER = Animator.StringToHash("moving");
+    private readonly int GROUND_PARAMETER = Animator.StringToHash("grounded");
     private WaitForSeconds _randomUpdaterWaiter;
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
         _randomUpdaterWaiter = new WaitForSeconds(0.5f);
+        _movement = GetComponentInParent<Movement>();
 
         StartCoroutine(UpdateRandomValue());
     }
@@ -21,6 +27,9 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _animator.SetBool(MOVE_PARAMETER, _movement.IsMoving);
+        _animator.SetBool(GROUND_PARAMETER, _movement.IsGrounded);
+        _model.transform.localScale = new Vector3(_movement.HorizontalInput != 0 ? -_movement.HorizontalInput : _model.transform.localScale.x, 1, 1);
     }
 
     IEnumerator UpdateRandomValue()

@@ -26,4 +26,4 @@ public enum Axis
 public delegate void SharedDelegate();
 public delegate void ItemEvent(Item item);
 public delegate void BooleanDelegate(bool value);
-
+public delegate void BubbleQueryDelegate(BubbleType requiredBubble, BubblePoint targetPoint);
