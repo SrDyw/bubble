@@ -103,9 +103,10 @@ MonoBehaviour:
   _type: 1
   _acceleration: 2
   _initalForce: 5
-  _speed: 10
-  _activeTime: 5
+  speed: 0
+  activeTime: 2
   _playerAtractionDistance: 4
+  FollowPlayer: 1
 --- !u!58 &2118811507921094257
 CircleCollider2D:
   m_ObjectHideFlags: 0

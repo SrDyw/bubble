@@ -9,6 +9,7 @@ public class Bubble : Item
     [SerializeField] protected float _initalForce = 5;
     [SerializeField] protected float speed;
     [SerializeField] private float activeTime;
+    [SerializeField] private bool _permanent = false;
     [SerializeField] protected float _playerAtractionDistance = 1;
 
     protected SpriteRenderer _renderer;
@@ -38,7 +39,7 @@ public class Bubble : Item
 
         _defaultScale = transform.localScale;
 
-        StartCoroutine(DesapearProcess());
+        if (_permanent == false) StartCoroutine(DesapearProcess());
         _renderer = GetComponent<SpriteRenderer>();
 
         _renderer.color = Scheme.Color;
