@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour
 {
     private readonly List<Item> _items = new();
 
+    public GameObject bubbleWhite, bubbleBlue, bubbleRed;
+
     public static Inventory Current;
     public ItemEvent OnItemAdd;
     public ItemEvent OnItemUse;
@@ -25,6 +27,7 @@ public class Inventory : MonoBehaviour
     {
         // _items.Show();
     }
+
 
     public void AddItem(Item item)
     {

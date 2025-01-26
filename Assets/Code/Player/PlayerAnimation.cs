@@ -27,9 +27,10 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _animator.SetBool(MOVE_PARAMETER, _movement.IsMoving);
+        _animator.SetBool(MOVE_PARAMETER, _movement.enabled == true && _movement.IsMoving);
         _animator.SetBool(GROUND_PARAMETER, _movement.IsGrounded);
-        _model.transform.localScale = new Vector3(_movement.HorizontalInput != 0 ? -_movement.HorizontalInput : _model.transform.localScale.x, 1, 1);
+
+        _model.transform.localScale = new Vector3(Player.Current.Direction, 1, 1);
     }
 
     IEnumerator UpdateRandomValue()

@@ -15,10 +15,18 @@ public class Player : MonoBehaviour
     public bool Traveling { get => _traveling; set => _traveling = value; }
 
     bool Interact => Input.GetKeyDown(KeyCode.E);
+
+    public bool AllowInput { get => _allowInput; set => _allowInput = value; }
+
     private bool _allowInput = true;
+    private float direction = 1;
 
     private Rigidbody2D _rb;
     public static Player Current;
+
+    public Planet CurrentPlanet => _atraction.CurrentPlanet;
+
+    public float Direction { get => direction; set => direction = value; }
 
     private void Awake()
     {
@@ -57,8 +65,6 @@ public class Player : MonoBehaviour
         int currentPointIndex = 0;
         var bezierPoints = targetJumpPath.GetBezierPoints();
 
-        bezierPoints.Show();
-
         while (true)
         {
             if (currentPointIndex < bezierPoints.Count)
@@ -85,8 +91,7 @@ public class Player : MonoBehaviour
 
     public void SetInputState(bool value)
     {
-        _allowInput = value;
-        _movement.enabled = value;
+        AllowInput = value;
     }
 
     private void ProcessPlant(Plant plant)
@@ -96,7 +101,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (!_allowInput) return;
+        if (!AllowInput) return;
         if (Interact)
         {
             print("Try To interact with something");

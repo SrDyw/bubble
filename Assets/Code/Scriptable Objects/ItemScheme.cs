@@ -6,4 +6,5 @@ public class ItemScheme : ScriptableObject
 {
     public string Name;
     public Sprite Thumb;
+    public Color Color;
 }

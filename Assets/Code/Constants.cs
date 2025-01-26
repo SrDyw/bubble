@@ -15,7 +15,8 @@ public enum BubbleType
 {
     None,
     White,
-    Red
+    Red,
+    Blue
 }
 
 public enum Axis
@@ -27,3 +28,4 @@ public delegate void SharedDelegate();
 public delegate void ItemEvent(Item item);
 public delegate void BooleanDelegate(bool value);
 public delegate void BubbleQueryDelegate(BubbleType requiredBubble, BubblePoint targetPoint);
+public delegate void ReleasePlantDelegate(Plant plant);

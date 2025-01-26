@@ -4,25 +4,30 @@ using UnityEngine;
 using DG.Tweening;
 public class Bubble : Item
 {
-    [SerializeField] private BubbleType _type;
-    [SerializeField] private float _acceleration;
-    [SerializeField] private float _initalForce = 5;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _activeTime;
-    [SerializeField] private float _playerAtractionDistance = 1;
+    [SerializeField] protected BubbleType _type;
+    [SerializeField] protected float _acceleration;
+    [SerializeField] protected float _initalForce = 5;
+    [SerializeField] protected float speed;
+    [SerializeField] private float activeTime;
+    [SerializeField] protected float _playerAtractionDistance = 1;
 
-    private bool _isWild = true;
-    private bool _isUsed = false;
-    private Vector2 direction;
-    private Rigidbody2D _rb;
+    protected SpriteRenderer _renderer;
 
-    private Vector2 _defaultScale;
-    private Tween _scaleTween;
+    protected bool _isWild = true;
+    protected bool _isUsed = false;
+    protected Vector2 direction;
+    protected Rigidbody2D _rb;
+
+    protected Vector2 _defaultScale;
+    protected Tween _scaleTween;
+    public bool FollowPlayer = true;
 
     public BubbleType BubbleType { get => _type; set => _type = value; }
     public Vector2 Direction { get => direction; set => direction = value; }
     public bool IsWild { get => _isWild; set => _isWild = value; }
     public bool IsUsed { get => _isUsed; set => _isUsed = value; }
+    public float Speed { get => speed; set => speed = value; }
+    public float ActiveTime { get => activeTime; set => activeTime = value; }
 
 
     // Start is called before the first frame update
@@ -34,12 +39,16 @@ public class Bubble : Item
         _defaultScale = transform.localScale;
 
         StartCoroutine(DesapearProcess());
+        _renderer = GetComponent<SpriteRenderer>();
+
+        _renderer.color = Scheme.Color;
+        _renderer.sprite = Scheme.Thumb;
     }
 
     public override void Pick()
     {
         if (IsUsed) return;
-        
+
         base.Pick();
         _scaleTween?.Kill();
 
@@ -59,27 +68,37 @@ public class Bubble : Item
         if (_isWild)
         {
             var targetDirection = Direction;
-            if (Vector3.Distance(Player.Current.transform.position, transform.position) < _playerAtractionDistance)
+            if (Vector3.Distance(Player.Current.transform.position, transform.position) < _playerAtractionDistance && FollowPlayer)
             {
                 targetDirection = (Player.Current.transform.position - transform.position).normalized * 10;
             }
-                _rb.AddForce(targetDirection * _acceleration, ForceMode2D.Force);
+            _rb.AddForce(targetDirection * _acceleration, ForceMode2D.Force);
 
-                _rb.velocity = new Vector2(
-                    Mathf.Clamp(_rb.velocity.x, -_speed, _speed),
-                    Mathf.Clamp(_rb.velocity.y, -_speed, _speed)
-                );
+            _rb.velocity = new Vector2(
+                Mathf.Clamp(_rb.velocity.x, -Speed, Speed),
+                Mathf.Clamp(_rb.velocity.y, -Speed, Speed)
+            );
         }
     }
 
 
+    public virtual void BlockPointLogic(BubblePoint point)
+    {
+
+    }
+
+    public void Dissapear()
+    {
+        _scaleTween = transform.DOScale(Vector3.zero, 0.5f)
+                    .SetEase(Ease.InBack)
+                    .OnComplete(() => Destroy(gameObject));
+    }
+
 
     private IEnumerator DesapearProcess()
     {
-        yield return new WaitForSeconds(_activeTime);
-        _scaleTween = transform.DOScale(Vector3.zero, 0.5f)
-            .SetEase(Ease.InBack)
-            .OnComplete(() => Destroy(gameObject));
+        yield return new WaitForSeconds(ActiveTime);
+        Dissapear();
     }
 
     public override string ToString()

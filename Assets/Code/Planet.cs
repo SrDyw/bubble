@@ -39,6 +39,7 @@ public class Planet : MonoBehaviour
 
     public void SurfaceStep(Vector3 stepDirection, float force = 1)
     {
+        if (_surfaceTween?.active == true) return;
         var effectTime = 0.15f;
         Kill(_surfaceTween);
         var inverseDirection = -(stepDirection.normalized / Scheme.Weight) * force;

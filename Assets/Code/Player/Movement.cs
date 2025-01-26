@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
     private bool _isMoving = false;
     private float _horizontalInput;
     private Timer _stepTimer;
-   
+
     public bool IsMoving { get => _isMoving; }
     public float JumpThreshold { get => _jumpThreshold; set => _jumpThreshold = value; }
     public Vector2 Direction { get => _direction; set => _direction = value; }
@@ -47,11 +47,11 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
         HorizontalInput = Input.GetAxisRaw("Horizontal");
-        if (HorizontalInput != 0)
+        if (HorizontalInput != 0 && Player.Current.AllowInput)
         {
             Direction = transform.right.normalized * HorizontalInput;
+            Player.Current.Direction = -Mathf.Sign(HorizontalInput);
             var translationVector = Direction * _speed * Time.fixedDeltaTime;
             transform.position += (Vector3)translationVector;
 

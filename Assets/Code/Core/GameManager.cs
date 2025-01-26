@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
 
     public SharedDelegate OnGameOver;
     public SharedDelegate OnRestart;
+    public ReleasePlantDelegate OnReleasePlant;
+    public SharedDelegate OnQuestComplete;
+
 
     /// <summary>
     /// True - Playing | False - Paused

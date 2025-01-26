@@ -4,53 +4,79 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class DialogueBehavior : MonoBehaviour, IPointerClickHandler
+public class DialogueBehavior : MonoBehaviour
 {
-   
+
     public TextMeshProUGUI textComponent;
-    public string[] lines;
     public float textSpeed;
     private int pointer;
+    private string[] lines;
 
-    void OnEnable() {
+    public string[] Lines { get => lines; set => lines = value; }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (textComponent.text == Lines[pointer])
+                NextLine();
+            else
+            {
+                StopAllCoroutines();
+                textComponent.text = Lines[pointer];
+            }
+        }
+    }
+
+    void OnEnable()
+    {
         textComponent.text = string.Empty;
         StartDialogue();
         Player.Current.SetInputState(false);
+
+        var dir = Mathf.Sign(Player.Current.transform.position.x - UIDialogModule.Current.CurrentInteractor.transform.position.x);
+        Player.Current.Direction = dir;
     }
 
-    void OnDisable() {
+    void OnDisable()
+    {
         pointer = 0;
         Player.Current.SetInputState(true);
     }
 
-    void StartDialogue() {
+    public void StartDialogue()
+    {
         pointer = 0;
         StartCoroutine("TypeLine");
     }
 
-    IEnumerator TypeLine() {
-        foreach (char c in lines[pointer].ToCharArray()) {
+    IEnumerator TypeLine()
+    {
+        foreach (char c in Lines[pointer].ToCharArray())
+        {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
     }
 
-    void NextLine() {
-        pointer = Mathf.Min(++pointer, lines.Length);
-        textComponent.text = string.Empty;
-        if (pointer < lines.Length) 
-            StartCoroutine("TypeLine");
-        else {
-            gameObject.SetActive(false);
-        }
-    }
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+    void NextLine()
     {
-        if (textComponent.text == lines[pointer])
-            NextLine();
-        else {
-            StopAllCoroutines();
-            textComponent.text = lines[pointer];
+        pointer = Mathf.Min(++pointer, Lines.Length);
+        textComponent.text = string.Empty;
+        if (pointer < Lines.Length)
+            StartCoroutine("TypeLine");
+        else
+        {
+            UIDialogModule.Current.Hide();
         }
     }
+    // void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+    // {
+    //     if (textComponent.text == Lines[pointer])
+    //         NextLine();
+    //     else {
+    //         StopAllCoroutines();
+    //         textComponent.text = Lines[pointer];
+    //     }
+    // }
 }

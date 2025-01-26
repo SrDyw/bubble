@@ -62,6 +62,10 @@ public class UIInventoryModule : UIModule
 
     private void Update()
     {
+        var activeBubblePoint = FindObjectsOfType<BubblePoint>().Where(x => x.IsShowing).ToList(); 
+        if (activeBubblePoint.Count != 0) Show();
+        else Hide();
+
         // _slots.Show();
 
         // if (IsActive)
@@ -109,8 +113,10 @@ public class UIInventoryModule : UIModule
     }
 
     float animationTime = 0.25f;
+    
     public override void Show()
     {
+        if (IsActive) return;
         IsActive = true;
 
         _mainModuleTween = Wrapper.DOLocalMoveX(_defaultInventoryPosition.x, animationTime)
@@ -123,6 +129,8 @@ public class UIInventoryModule : UIModule
 
     public override void Hide()
     {
+        if (!IsActive) return;
+
         IsActive = false;
         _mainModuleTween = Wrapper.DOLocalMoveX(_defaultInventoryPosition.x - 100, animationTime)
             .SetEase(Ease.OutBack);

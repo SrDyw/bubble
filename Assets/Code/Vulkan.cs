@@ -15,7 +15,7 @@ public class Vulkan : MonoBehaviour
 
     private Coroutine _bubbleGenerator;
 
-    private void Start()
+    public virtual void Start()
     {
         _bubbleGenerator = StartCoroutine(BubbleGEenerator());
     }
@@ -32,6 +32,7 @@ public class Vulkan : MonoBehaviour
         while (true)
         {
             _animator.SetTrigger("Blop");
+            Pawn();
             yield return new WaitForSeconds(_shootDelay);
             var b = Instantiate(_bubblePrefab, _spawnPoint.position, Quaternion.identity);
             var bubble = b.GetComponent<Bubble>();
@@ -40,4 +41,6 @@ public class Vulkan : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(_minTimeToGenerate, _maxTimeToGenerate));
         }
     }
+
+    public virtual void Pawn(){}
 }

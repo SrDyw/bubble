@@ -9,6 +9,8 @@ public class TravelArrow : MonoBehaviour
     [SerializeField] private float _strength = 1;
     [SerializeField] private BezierCurve _jumpPath;
 
+    private float coldown = 0;
+
     private Vector3 _defaultPosition;
     private float _angle = 0;
     // Start is called before the first frame update
@@ -24,10 +26,16 @@ public class TravelArrow : MonoBehaviour
         var d = Mathf.Sin(_angle) * _strength;
 
         _model.transform.position = _defaultPosition + transform.right * d;
+
+        coldown = Mathf.Clamp(coldown - Time.deltaTime, 0, coldown);
     }
 
     public void Travel()
     {
-        StartCoroutine(Player.Current.StartJumpProcess(_jumpPath));
+        if (coldown == 0)
+        {
+            StartCoroutine(Player.Current.StartJumpProcess(_jumpPath));
+            coldown = 1f;
+        }
     }
 }

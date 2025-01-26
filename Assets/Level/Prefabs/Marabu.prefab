@@ -626,6 +626,7 @@ MonoBehaviour:
   _floatAnimationTime: 3
   _initialGrowDelay: 0.2
   _growAnimationTime: 1.5
+  _bubbleScan: {fileID: 2362112880303596908}
 --- !u!61 &4360907818494985758
 BoxCollider2D:
   m_ObjectHideFlags: 0

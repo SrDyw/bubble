@@ -9,6 +9,7 @@ public class GrowRoot : MonoBehaviour
     [SerializeField] private float rootGap = .1f;
     [SerializeField] private float startGap = .1f;
     [SerializeField] private float timeBtwRoots = 1;
+    [SerializeField] private float _initialDelay;
     [SerializeField] private GameObject coreScan;
     [SerializeField] private Transform rootTransform;
     [SerializeField] private GameObject root;
@@ -38,6 +39,7 @@ public class GrowRoot : MonoBehaviour
 
     private IEnumerator RootGenerator()
     {
+        yield return new WaitForSeconds(_initialDelay);
         Vector3 currentPos = new(
                     rootTransform.position.x,
                     rootTransform.position.y,
@@ -45,11 +47,19 @@ public class GrowRoot : MonoBehaviour
                 );
 
         var growingDir = -transform.up;
-        for (int i = 0; i < rootAmount; i++)
+        var i = 0;
+        while (true)
         {
             yield return new WaitForSeconds(timeBtwRoots);
-            var gapDir = growingDir.normalized * (i == 0 ? startGap : rootGap) * (i + 1);
-            GenerateRoot(currentPos + gapDir, i % 2, i);
+            if (!UIDialogModule.Current.IsActive)
+            {
+                if (i >=  rootAmount) yield break;
+
+                var gapDir = growingDir.normalized * (i == 0 ? startGap : rootGap) * (i + 1);
+                GenerateRoot(currentPos + gapDir, i % 2, i);
+                i++;
+
+            }
         }
     }
 
