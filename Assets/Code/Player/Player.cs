@@ -6,7 +6,7 @@ using DywFunctions;
 public class Player : MonoBehaviour
 {
     private Plant _targetPlant;
-   private Movement _movement;
+    private Movement _movement;
     private GravityAtraction _atraction;
     [SerializeField] private BezierCurve _targetJump;
     [SerializeField] private float _jumpSpeed;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     public bool AllowInput { get => _allowInput; set => _allowInput = value; }
 
-    private bool _allowInput = true;
+    [SerializeField] private bool _allowInput = true;
     private float direction = 1;
 
     private Rigidbody2D _rb;
@@ -43,7 +43,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraFollower.instance.Focus = _atraction.CurrentPlanet.transform;
+        if (CameraFollower.instance && _atraction.CurrentPlanet)
+        {
+            CameraFollower.instance.Focus = _atraction.CurrentPlanet.transform;
+        }
+        
         if (Interact)
         {
             if (_targetPlant) ProcessPlant(_targetPlant);

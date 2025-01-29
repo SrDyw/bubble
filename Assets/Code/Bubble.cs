@@ -34,6 +34,7 @@ public class Bubble : Item
     // Start is called before the first frame update
     void Start()
     {
+        // print(Direction);
         _rb = GetComponent<Rigidbody2D>();
         _rb.AddForce(Direction * _initalForce, ForceMode2D.Impulse);
 
@@ -44,6 +45,9 @@ public class Bubble : Item
 
         _renderer.color = Scheme.Color;
         _renderer.sprite = Scheme.Thumb;
+
+        if (Vector2.Distance(Player.Current.transform.position, transform.position) < 20)
+            AudioManager.instance.PlaySFX("BubbleAppear");
     }
 
     public override void Pick()
@@ -52,6 +56,8 @@ public class Bubble : Item
 
         base.Pick();
         _scaleTween?.Kill();
+        AudioManager.instance.PlaySFX("Bubble");
+
 
         transform.localScale = _defaultScale;
         Direction = Vector2.zero;

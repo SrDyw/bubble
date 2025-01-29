@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class DialogArea : DialogueInteractor
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            ShowDialog();
-            gameObject.SetActive(false);
+            if (other.GetComponent<Movement>().IsGrounded)
+            {
+                StartDialogue();
+            }
+
         }
+    }
+
+    void StartDialogue()
+    {
+        ShowDialog();
+        gameObject.SetActive(false);
     }
 }

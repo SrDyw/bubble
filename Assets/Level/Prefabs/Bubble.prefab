@@ -103,8 +103,9 @@ MonoBehaviour:
   _type: 1
   _acceleration: 2
   _initalForce: 5
-  speed: 0
+  speed: 30
   activeTime: 2
+  _permanent: 0
   _playerAtractionDistance: 4
   FollowPlayer: 1
 --- !u!58 &2118811507921094257

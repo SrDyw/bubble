@@ -6,7 +6,8 @@ using UnityEngine.Audio;
 using DywFunctions;
 
 
-public enum Track {
+public enum Track
+{
     Throught_the_Forest,
     The_Highs
 }
@@ -28,7 +29,7 @@ public class AudioManager : MonoBehaviour
         if (tracks != null && tracks.Length == 0) tracks = GetComponentsInChildren<AudioSource>();
         instance = instance == null ? this : instance;
 
-        
+
     }
     // Start is called before the first frame update
     void Start()
@@ -103,10 +104,15 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
-    AudioSource GetAudioSource(string name) => tracks.Where(t => t.name == name).ToList()[0];
+    AudioSource GetAudioSource(string name)
+    {
+        return tracks.FirstOrDefault(t => t.name == name);
+    }
     public void PlaySFX(string name)
     {
         var sfx = GetAudioSource(name);
+        if (sfx == null) return;
+        
         sfx.Play();
         sfx.loop = false;
     }
@@ -120,11 +126,13 @@ public class AudioManager : MonoBehaviour
         StartCoroutine(TurnDownVolume(trackIndex));
     }
 
-    public void Stop(string name) {
+    public void Stop(string name)
+    {
         Stop(GetIndex(name));
     }
 
-    public void StopCurrent() {
+    public void StopCurrent()
+    {
         if (currentSongID == -1) return;
         Stop(currentSongID);
     }

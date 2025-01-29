@@ -16,6 +16,7 @@ public class BubbleGenerator : MonoBehaviour
         Generate();
     }
 
+
     public void Generate()
     {
         for (int i = 0; i < 360f / amount; i++)

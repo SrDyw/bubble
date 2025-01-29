@@ -53,10 +53,11 @@ public class GrowRoot : MonoBehaviour
             yield return new WaitForSeconds(timeBtwRoots);
             if (!UIDialogModule.Current.IsActive)
             {
-                if (i >=  rootAmount) yield break;
+                if (i >= rootAmount) yield break;
 
                 var gapDir = growingDir.normalized * (i == 0 ? startGap : rootGap) * (i + 1);
                 GenerateRoot(currentPos + gapDir, i % 2, i);
+                AudioManager.instance.PlaySFX("RootGrows");
                 i++;
 
             }

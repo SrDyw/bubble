@@ -55,6 +55,7 @@ public class UIItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        print("Asdasd");
         if (CurrentItem)
         {
             UiInventoryModule.SelectSlotAndUpdateCursor(SlotIndex);

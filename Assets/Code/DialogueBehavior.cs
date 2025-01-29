@@ -34,8 +34,11 @@ public class DialogueBehavior : MonoBehaviour
         StartDialogue();
         Player.Current.SetInputState(false);
 
-        var dir = Mathf.Sign(Player.Current.transform.position.x - UIDialogModule.Current.CurrentInteractor.transform.position.x);
-        Player.Current.Direction = dir;
+        if (UIDialogModule.Current.CurrentInteractor.AllowPlayerTowardsTarget)
+        {
+            var dir = Mathf.Sign(Player.Current.transform.position.x - UIDialogModule.Current.CurrentInteractor.transform.position.x);
+            Player.Current.Direction = dir;
+        }
     }
 
     void OnDisable()

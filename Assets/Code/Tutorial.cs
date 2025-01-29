@@ -20,6 +20,8 @@ public class Tutorial : MonoBehaviour
         Inventory.Current.OnItemUse += OnItemUse;
         GameManager.Current.OnReleasePlant += OnReleasePlant;
 
+        Player.Current.AllowInput = false;
+
     }
 
     private IEnumerator StartTutorialProcess()

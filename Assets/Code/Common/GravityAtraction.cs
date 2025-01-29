@@ -51,6 +51,7 @@ public class GravityAtraction : MonoBehaviour
             _center = gravityCenter;
             _currentPlanet = _center.GetComponent<Planet>();
             _rb.gravityScale = 0;
+            _rb.velocity = Vector2.zero;
 
         }
         else

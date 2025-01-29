@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: _activeTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2118811507921094256, guid: 1dd84e6e20711a445b33213763ea3582, type: 3}
+      propertyPath: _playerAtractionDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2118811507921094258, guid: 1dd84e6e20711a445b33213763ea3582, type: 3}
       propertyPath: m_Name
       value: Bubble Blue Variant

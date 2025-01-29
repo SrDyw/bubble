@@ -105,6 +105,10 @@ MonoBehaviour:
   _bubbleRequired: 1
   _plant: {fileID: 0}
   _parent: {fileID: 0}
+  _onBubbleSetted:
+    m_PersistentCalls:
+      m_Calls: []
+  _showByDistance: -1
 --- !u!135 &4516667083452513450
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -124,5 +128,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5000001
+  m_Radius: 1.05
   m_Center: {x: -0.00000011920929, y: 0.0000014305115, z: 0.00000014490445}

@@ -58,6 +58,8 @@ public class UIInventoryModule : UIModule
         _defaultInventoryPosition = Wrapper.localPosition;
         Wrapper.localPosition += Vector3.left * 100;
 
+        Wrapper.gameObject.SetActive(false);
+
     }
 
     private void Update()
@@ -117,6 +119,7 @@ public class UIInventoryModule : UIModule
     public override void Show()
     {
         if (IsActive) return;
+        Wrapper.gameObject.SetActive(true);
         IsActive = true;
 
         _mainModuleTween = Wrapper.DOLocalMoveX(_defaultInventoryPosition.x, animationTime)
@@ -133,7 +136,8 @@ public class UIInventoryModule : UIModule
 
         IsActive = false;
         _mainModuleTween = Wrapper.DOLocalMoveX(_defaultInventoryPosition.x - 100, animationTime)
-            .SetEase(Ease.OutBack);
+            .SetEase(Ease.OutBack)
+            .OnComplete(() => Wrapper.gameObject.SetActive(false));
 
         _cursor.gameObject.SetActive(false);
     }

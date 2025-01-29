@@ -56,12 +56,14 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         GameState = GameState.Paused;
+        Freeze();
         OnGameStateChanged?.Invoke(false);
     }
 
     public void Play()
     {
         GameState = GameState.Playing;
+        Unfreeze();
         OnGameStateChanged?.Invoke(true);
     }
 

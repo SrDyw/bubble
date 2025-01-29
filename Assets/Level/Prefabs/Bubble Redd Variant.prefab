@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2118811507921094262, guid: 1dd84e6e20711a445b33213763ea3582, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2118811507921094262, guid: 1dd84e6e20711a445b33213763ea3582, type: 3}
       propertyPath: m_LocalPosition.x
@@ -106,7 +106,10 @@ MonoBehaviour:
   _type: 2
   _acceleration: 2
   _initalForce: 5
-  _speed: 10
-  _activeTime: 5
+  speed: 30
+  activeTime: 2
+  _permanent: 0
   _playerAtractionDistance: 4
+  FollowPlayer: 1
   timeToExplose: 1
+  _targetPoint: {fileID: 0}

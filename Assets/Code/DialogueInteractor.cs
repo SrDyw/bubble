@@ -7,6 +7,7 @@ public class DialogueInteractor : MonoBehaviour
 {
     [SerializeField, TextArea(2, 5)] private string[] lines;
     [SerializeField] private bool _initOnStart;
+    [SerializeField] private bool _allowPlayerTowardsTarget = true;
 
     [SerializeField] private UnityEvent _OnDialogFinishes;
     [SerializeField] private UnityEvent _OnDialogStarts;
@@ -15,6 +16,7 @@ public class DialogueInteractor : MonoBehaviour
     private DialogueBehavior _dialogue;
 
     public UnityEvent OnDialogFinishes { get => _OnDialogFinishes; set => _OnDialogFinishes = value; }
+    public bool AllowPlayerTowardsTarget { get => _allowPlayerTowardsTarget; }
 
     private void OnEnable()
     {

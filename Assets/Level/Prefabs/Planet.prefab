@@ -445,6 +445,10 @@ MonoBehaviour:
   _initialGrowDelay: 0.2
   _growAnimationTime: 0.5
   _bubbleScan: {fileID: 0}
+  _onDone:
+    m_PersistentCalls:
+      m_Calls: []
+  _autoInitRoots: 1
 --- !u!1 &795564503
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eec47bf0c56414a812f50536bf3e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gravityAtraction: 50
+  _gravityAtraction: 100
 --- !u!114 &4987317706534927086
 MonoBehaviour:
   m_ObjectHideFlags: 0
